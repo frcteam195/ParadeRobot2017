@@ -16,6 +16,7 @@ class Rotor : public Subsystem, public Singleton<Rotor>, public Loop {
 
 public:
 
+    void setOff();
     void stop() override;
     bool isSystemFaulted() override;
     bool runDiagnostics() override;
@@ -25,11 +26,17 @@ public:
     void onStop(double timestamp) override;
     void onLoop(double timestamp) override;
     std::string getName() override;
+    void controlIntake( int dir );
+    void controlCarousel( int dir );
 
 private:
     Rotor();
-    TalonFX suck_motor = {13};
-    TalonFX middle_motor = {13};
-    TalonFX feed_motor = {13};
+    TalonSRX intake_l_motor = {12};
+    TalonSRX intake_r_motor = {11};
+    TalonSRX carousel_motor = {7};
+    TalonSRX roller_motor = {8};
+    bool is_system_on = false;
+    int intake_dir = 1;
+    int carousel_dir = -1;
 };
 
