@@ -10,11 +10,13 @@
 #include "reporters/NetworkDataType.hpp"
 
 #include "subsystems/Drive.hpp"
+#include "subsystems/Turret.hpp"
+#include "subsystems/Input.hpp"
 
 class Robot : public frc::TimedRobot {
 public:
     void RobotInit() override;
-    void RobotPeriodic() override;  
+    void RobotPeriodic() override;
     void AutonomousInit() override;
     void AutonomousPeriodic() override;
     void TeleopInit() override;

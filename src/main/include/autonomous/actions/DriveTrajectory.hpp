@@ -1,10 +1,7 @@
-#pragma once
+/*#pragma once
 
 #include "autonomous/actions/Action.hpp"
-#include "trajectory/TrajectoryIterator.hpp"
-#include "trajectory/timing/TimedState.hpp"
 #include "geometry/Pose2dWithCurvature.hpp"
-#include "trajectory/Trajectory.hpp"
 
 using namespace ck::trajectory;
 using namespace ck::trajectory::timing;
@@ -23,3 +20,4 @@ public:
     void done() override;
     void start() override;
 };
+*/

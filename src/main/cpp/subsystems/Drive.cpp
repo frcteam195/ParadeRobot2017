@@ -42,14 +42,6 @@ bool Drive::runDiagnostics() {
     return true;
 }
 
-bool Drive::isDoneWithTrajectory() {
-    // if (mMotionPlanner == null || mDriveControlState != DriveControlState.PATH_FOLLOWING) {
-    //     return false;
-    // }
-    // return mMotionPlanner.isDone() || mOverrideTrajectory;
-    //TODO: Waiting on motion planners to fully implement this code
-    return true;
-}
 
 double Drive::getLeftEncoderDistance() {
     
@@ -88,17 +80,6 @@ double Drive::getLinearVelocity() {
 void Drive::setDriveControlState(DriveControlState driveControlState) {
     std::scoped_lock<std::mutex> lock(memberAccessMtx);
     mDriveControlState = driveControlState;
-}
-
-void Drive::setTrajectory(TrajectoryIterator<TimedState<Pose2dWithCurvature>> trajectory) {
-    std::scoped_lock<std::mutex> lock(memberAccessMtx);
-    //TODO: Implement after motion planners
-    // if (mMotionPlanner != null) {
-    //     mOverrideTrajectory = false;
-    //     mMotionPlanner.reset();
-    //     mMotionPlanner.setTrajectory(trajectory);
-    //     setDriveControlState(DriveControlState.PATH_FOLLOWING);
-    // }
 }
 
 Rotation2d Drive::getHeading() {

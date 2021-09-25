@@ -6,14 +6,10 @@
 #include "reporters/DataReporter.hpp"
 #include "reporters/NetworkDataReporter.hpp"
 #include "utils/Singleton.hpp"
-#include "trajectory/TrajectoryIterator.hpp"
-#include "trajectory/timing/TimedState.hpp"
 #include "geometry/Pose2dWithCurvature.hpp"
 #include <mutex>
 
 using namespace ck::log;
-using namespace ck::trajectory;
-using namespace ck::trajectory::timing;
 using namespace ck::geometry;
 
 class Drive : public Subsystem, public Singleton<Drive>, public Loop {
@@ -42,8 +38,6 @@ public:
     void onStop(double timestamp) override;
     void onLoop(double timestamp) override;
     std::string getName() override;
-
-    bool isDoneWithTrajectory();
     
 	double getLeftEncoderDistance();
 	double getRightEncoderDistance();
@@ -52,7 +46,6 @@ public:
 	double getLinearVelocity();
 
     void setDriveControlState(DriveControlState driveControlState);
-    void setTrajectory(TrajectoryIterator<TimedState<Pose2dWithCurvature>> trajectory);
 
     Rotation2d getHeading();
     void setHeading(Rotation2d heading);
