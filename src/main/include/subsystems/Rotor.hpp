@@ -10,7 +10,7 @@
 #include <mutex>
 #include <math.h>
 
-class Turret : public Subsystem, public Singleton<Turret>, public Loop {
+class Rotor : public Subsystem, public Singleton<Rotor>, public Loop {
     friend Singleton;
     friend class PeriodicIO;
 
@@ -27,7 +27,9 @@ public:
     std::string getName() override;
 
 private:
-    Turret();
-    TalonFX shoot_motor = {13};
+    Rotor();
+    TalonFX suck_motor = {13};
+    TalonFX middle_motor = {13};
+    TalonFX feed_motor = {13};
 };
 

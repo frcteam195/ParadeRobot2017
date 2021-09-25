@@ -10,6 +10,7 @@
 #include "reporters/NetworkDataType.hpp"
 
 #include "subsystems/Drive.hpp"
+#include "subsystems/Rotor.hpp"
 #include "subsystems/Turret.hpp"
 #include "subsystems/Input.hpp"
 

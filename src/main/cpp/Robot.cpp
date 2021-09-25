@@ -7,6 +7,7 @@ void Robot::RobotInit() {
         mSubsystemManager = &SubsystemManager::getInstance({
             &Input::getInstance(),
             &Drive::getInstance(),
+            &Rotor::getInstance(),
             &Turret::getInstance()
         });
 
