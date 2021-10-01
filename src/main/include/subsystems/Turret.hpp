@@ -25,6 +25,10 @@ public:
     const double shoot_deadband = 500;
     const double max_shoot_accel = 800;
 
+    const double base_rotate_speed = 0.1;
+    const double hood_rotate_speed = 0.1;
+    const double shoot_vel_target_max = 5000;
+
     enum class TURRET_STATE {
         IDLE,
         SPINNING,
@@ -60,4 +64,7 @@ private:
     TalonFX base_motor = {10};
     GearRatio base_ratio;
     double base_pos = 0;
+
+    bool is_shoot_on = false;
+
 };

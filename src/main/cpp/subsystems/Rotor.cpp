@@ -6,12 +6,25 @@ Rotor::Rotor() {
     intake_r_motor.SetNeutralMode( NeutralMode::Coast );
     carousel_motor.SetNeutralMode( NeutralMode::Coast );
     roller_motor.SetNeutralMode( NeutralMode::Coast );
+
+    intake_l_motor.ConfigOpenloopRamp(0.1);
+    intake_r_motor.ConfigOpenloopRamp(0.1);
+
     setOff();
+
 }
 
 void Rotor::setOff(){
+    setOffIntake();
+    setOffCarousel();
+}
+
+void Rotor::setOffIntake(){
     intake_l_motor.Set(ControlMode::PercentOutput, 0);
     intake_r_motor.Set(ControlMode::PercentOutput, 0);
+}
+
+void Rotor::setOffCarousel(){
     carousel_motor.Set(ControlMode::PercentOutput, 0);
     roller_motor.Set(ControlMode::PercentOutput, 0);
 }
@@ -47,15 +60,28 @@ void Rotor::onStop(double timestamp) {
 
 void Rotor::onLoop(double timestamp) {
 
-    if( Input::getInstance().getJoystick().GetRawButtonPressed(9) ){
-        is_system_on = !is_system_on;
+    if( Input::getInstance().getJoystick().GetRawButtonPressed(1) ){
+        carousel_on = !carousel_on;
     }
 
-    if( is_system_on ){
-        controlIntake(intake_dir);
+    if( Input::getInstance().getJoystick().GetRawButtonPressed(2) ){
+        intake_on = !intake_on;
+    }
+
+    if( Input::getInstance().getJoystick().GetRawButtonPressed(3) ){
+        intake_dir = intake_dir == 1 ? -1 : 1;
+    }
+
+    if( carousel_on ){
         controlCarousel(carousel_dir);
     }else{
-        setOff();
+        setOffCarousel();
+    }
+
+    if( intake_on ){
+        controlIntake(intake_dir);
+    }else{
+        setOffIntake();
     }
 
 }

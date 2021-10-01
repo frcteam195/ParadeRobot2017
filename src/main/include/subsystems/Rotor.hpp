@@ -28,6 +28,9 @@ public:
     std::string getName() override;
     void controlIntake( int dir );
     void controlCarousel( int dir );
+    void setOffIntake();
+    void setOffCarousel();
+
 
 private:
     Rotor();
@@ -38,5 +41,8 @@ private:
     bool is_system_on = false;
     int intake_dir = 1;
     int carousel_dir = -1;
+
+    bool carousel_on = false;
+    bool intake_on = false;
 };
 

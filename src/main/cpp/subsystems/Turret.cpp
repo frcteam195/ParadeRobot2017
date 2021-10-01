@@ -88,73 +88,53 @@ void Turret::onLoop(double timestamp) {
     double dt = timestamp - last_time;
     last_time = timestamp;
 
+    double z_axis = Input::useDeadband(Input::getInstance().getJoystick().GetZ());
+    base_pos += base_rotate_speed*z_axis;
+    base_pos = base_pos < 0 ? 0 : base_pos;
+    base_pos = base_pos > 36 ? 36 : base_pos;
 
-    if( Input::getInstance().getJoystick().GetRawButtonPressed(6) ){
-        shoot_vel_target += shoot_step;
-    }
-
-    if( Input::getInstance().getJoystick().GetRawButtonPressed(5) ){
-        shoot_vel_target -= shoot_step;
-    }
-
-    if( Input::getInstance().getJoystick().GetRawButtonPressed(3) ){
-        hood_pos -= hood_step;
-    }
+    double y_axis = Input::useDeadband(Input::getInstance().getJoystick().GetY());
+    hood_pos += hood_rotate_speed*y_axis;
 
     if( Input::getInstance().getJoystick().GetRawButtonPressed(4) ){
-        hood_pos += hood_step;
+        is_shoot_on = !is_shoot_on;
+        printf("[shoot] ON:%d vel:%f target:%f\n", is_shoot_on, shoot_vel, shoot_vel_target );
     }
 
-    if( Input::getInstance().getJoystick().GetRawButtonPressed(1) ){
-        base_pos -= base_step;
+    if( Input::getInstance().getJoystick().GetRawButtonPressed(6) ){
+        shoot_vel_target -= shoot_step;
+        shoot_vel_target = shoot_vel_target < 0 ? 0 : shoot_vel_target;
+        printf("[shoot] ON:%d vel:%f target:%f\n", is_shoot_on, shoot_vel, shoot_vel_target );
     }
 
-    if( Input::getInstance().getJoystick().GetRawButtonPressed(2) ){
-        base_pos += base_step;
+    if( Input::getInstance().getJoystick().GetRawButtonPressed(8) ){
+        shoot_vel_target += shoot_step;
+        shoot_vel_target = shoot_vel_target < shoot_vel_target_max ? shoot_vel_target_max : shoot_vel_target;
+        printf("[shoot] ON:%d vel:%f target:%f\n", is_shoot_on, shoot_vel, shoot_vel_target );
     }
 
 
     double vel_diff = shoot_vel_target - shoot_ratio.convertNativeUnitsToRPM( shoot_motor.GetSelectedSensorVelocity() );
     double vel_add = fmin(abs(vel_diff),(max_shoot_accel * dt)) * copysign(1.0, vel_diff);
-
     if( vel_diff > shoot_deadband ){
         shoot_vel = shoot_vel + vel_add;
     }else{
         shoot_vel = shoot_vel_target;
     }
-    std::cout << "dt:" << dt << " " << vel_diff << " " << vel_add << "  .. "  << shoot_vel_target << " -> " << shoot_vel << "\n";
 
-    if( state == TURRET_STATE::IDLE ){
-        shoot_motor.Set(ControlMode::Velocity, 0);
-        hood_motor.Set(ControlMode::MotionMagic, 0);
-        base_motor.Set(ControlMode::MotionMagic, 0);
+    base_motor.Set(ControlMode::MotionMagic,
+                   base_ratio.convertRotationsToNativeUnits(base_pos));
 
-    }else if( state == TURRET_STATE::SPINNING ){
+    hood_motor.Set(ControlMode::MotionMagic,
+                   hood_ratio.convertRotationsToNativeUnits(hood_pos));
 
 
+
+    if( is_shoot_on ){
         shoot_motor.Set(ControlMode::Velocity, shoot_ratio.convertRPMToNativeUnits(shoot_vel) );
-
-        hood_motor.Set(ControlMode::MotionMagic,
-                       hood_ratio.convertRotationsToNativeUnits(hood_pos));
-
-        base_motor.Set(ControlMode::MotionMagic,
-                       base_ratio.convertRotationsToNativeUnits(base_pos));
-
     }else{
-        std::cout << "Turret in known state\n";
-        shoot_motor.Set(ControlMode::PercentOutput, 0);
-        hood_motor.Set(ControlMode::PercentOutput, 0);
-        base_motor.Set(ControlMode::PercentOutput, 0);
-    }
-
-
-    if ( Input::getInstance().getJoystick().GetRawButtonPressed(7) ){
-        if( state == TURRET_STATE::SPINNING ){
-            state = TURRET_STATE::IDLE;
-
-        }else{
-            state = TURRET_STATE::SPINNING;
-        }
+        shoot_vel = 0;
+        shoot_motor.Set(ControlMode::PercentOutput, 0 );
     }
 
 }

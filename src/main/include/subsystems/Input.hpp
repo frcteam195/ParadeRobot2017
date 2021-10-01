@@ -27,6 +27,9 @@ public:
 
     frc::Joystick& getJoystick();
 
+    static double useDeadband( double val, double deadband = 0.2);
+
+
 private:
     Input();
 

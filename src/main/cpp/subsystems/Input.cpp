@@ -40,3 +40,10 @@ bool Input::runDiagnostics() {
 frc::Joystick& Input::getJoystick() {
     return joystick;
 }
+
+double Input::useDeadband( double val, double deadband){
+    if( std::abs(val) < deadband ){
+        return 0;
+    }
+    return val;
+}
