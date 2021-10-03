@@ -4,6 +4,7 @@
 
 Turret::Turret() {
     shoot_vel = 0;
+    shoot_vel_target = 0;
     shoot_motor.Set(ControlMode::Velocity, shoot_vel);
 
     // hood --------------------
@@ -88,10 +89,10 @@ void Turret::onLoop(double timestamp) {
     double dt = timestamp - last_time;
     last_time = timestamp;
 
-    double z_axis = Input::useDeadband(Input::getInstance().getJoystick().GetZ());
+    double z_axis = -Input::useDeadband(Input::getInstance().getJoystick().GetZ());
     base_pos += base_rotate_speed*z_axis;
-    base_pos = base_pos < 0 ? 0 : base_pos;
-    base_pos = base_pos > 36 ? 36 : base_pos;
+    base_pos = base_pos < -12 ? -12 : base_pos;
+    base_pos = base_pos > 12 ? 12 : base_pos;
 
     double y_axis = Input::useDeadband(Input::getInstance().getJoystick().GetY());
     hood_pos += hood_rotate_speed*y_axis;
@@ -109,7 +110,7 @@ void Turret::onLoop(double timestamp) {
 
     if( Input::getInstance().getJoystick().GetRawButtonPressed(8) ){
         shoot_vel_target += shoot_step;
-        shoot_vel_target = shoot_vel_target < shoot_vel_target_max ? shoot_vel_target_max : shoot_vel_target;
+        shoot_vel_target = shoot_vel_target < shoot_vel_target_max ? shoot_vel_target : shoot_vel_target_max;
         printf("[shoot] ON:%d vel:%f target:%f\n", is_shoot_on, shoot_vel, shoot_vel_target );
     }
 

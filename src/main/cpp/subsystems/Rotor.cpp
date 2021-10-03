@@ -60,12 +60,18 @@ void Rotor::onStop(double timestamp) {
 
 void Rotor::onLoop(double timestamp) {
 
-    if( Input::getInstance().getJoystick().GetRawButtonPressed(1) ){
-        carousel_on = !carousel_on;
+    if( Input::getInstance().getJoystick().GetRawButton(1) ){
+        carousel_on = true;
+    }
+    else {
+        carousel_on = false;
     }
 
     if( Input::getInstance().getJoystick().GetRawButtonPressed(2) ){
-        intake_on = !intake_on;
+        intake_on = true;
+    }
+    else {
+        intake_on = false;
     }
 
     if( Input::getInstance().getJoystick().GetRawButtonPressed(3) ){

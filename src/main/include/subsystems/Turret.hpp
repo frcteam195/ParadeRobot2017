@@ -21,7 +21,7 @@ public:
     const double ROT_TO_DEG = 1/360.0;
     const double hood_step = 3;
     const double base_step = 5;
-    const double shoot_step = 300;
+    const double shoot_step = 200;
     const double shoot_deadband = 500;
     const double max_shoot_accel = 800;
 
