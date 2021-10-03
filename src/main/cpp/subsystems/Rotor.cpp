@@ -7,8 +7,8 @@ Rotor::Rotor() {
     carousel_motor.SetNeutralMode( NeutralMode::Coast );
     roller_motor.SetNeutralMode( NeutralMode::Coast );
 
-    intake_l_motor.ConfigOpenloopRamp(0.1);
-    intake_r_motor.ConfigOpenloopRamp(0.1);
+    intake_l_motor.ConfigOpenloopRamp(0.05);
+    intake_r_motor.ConfigOpenloopRamp(0.05);
 
     setOff();
 
@@ -67,7 +67,7 @@ void Rotor::onLoop(double timestamp) {
         carousel_on = false;
     }
 
-    if( Input::getInstance().getJoystick().GetRawButtonPressed(2) ){
+    if( Input::getInstance().getJoystick().GetRawButton(2) ){
         intake_on = true;
     }
     else {
