@@ -1,7 +1,16 @@
 #include "subsystems/Rotor.hpp"
 #include "subsystems/Input.hpp"
 
+using namespace ctre::phoenix::motorcontrol;
+using namespace ctre::phoenix::motorcontrol::can;
+
 Rotor::Rotor() {
+    SupplyCurrentLimitConfiguration limit(true, 15, 0, 0);
+    intake_l_motor.ConfigSupplyCurrentLimit(limit);
+    intake_r_motor.ConfigSupplyCurrentLimit(limit);
+    carousel_motor.ConfigSupplyCurrentLimit(limit);
+    roller_motor.ConfigSupplyCurrentLimit(limit);
+
     intake_l_motor.SetNeutralMode( NeutralMode::Coast );
     intake_r_motor.SetNeutralMode( NeutralMode::Coast );
     carousel_motor.SetNeutralMode( NeutralMode::Coast );

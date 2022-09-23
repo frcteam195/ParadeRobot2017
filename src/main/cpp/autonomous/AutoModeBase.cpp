@@ -11,7 +11,7 @@ void AutoModeBase::run() {
     try {
         routine();
     } catch (AutoModeEndedException e) {
-        frc::DriverStation::ReportError(e.what());
+        // frc::DriverStation::ReportError(e.what());
         return;
     }
 

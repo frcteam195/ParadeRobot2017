@@ -1,16 +1,23 @@
 #include "subsystems/Turret.hpp"
 #include "subsystems/Input.hpp"
 
+using namespace ctre::phoenix::motorcontrol;
+using namespace ctre::phoenix::motorcontrol::can;
 
 Turret::Turret() {
+    SupplyCurrentLimitConfiguration limit(true, 10, 0, 0);
+
+
     shoot_vel = 0;
     shoot_vel_target = 0;
     shoot_motor.Set(ControlMode::Velocity, shoot_vel);
+    shoot_motor.ConfigSupplyCurrentLimit(limit);
 
     // hood --------------------
+    
     hood_motor.Set(ControlMode::PercentOutput, 0);
     hood_ratio = GearRatio(2048, 50 * ROT_TO_DEG * sprocket_to_HOOD_ratio, 600);
-
+    hood_motor.ConfigSupplyCurrentLimit(limit);
     hood_motor.Config_kP(0, 0.375);
     hood_motor.Config_kI(0, 0);
     hood_motor.Config_kD(0, 0.5);
@@ -29,7 +36,7 @@ Turret::Turret() {
     // base --------------------
     base_motor.Set(ControlMode::PercentOutput, 0);
     base_ratio = GearRatio(2048, 50 * ROT_TO_DEG * sprocket_to_BASE_ratio, 600);
-
+    base_motor.ConfigSupplyCurrentLimit(limit);
     base_motor.Config_kP(0, 0.375);
     base_motor.Config_kI(0, 0);
     base_motor.Config_kD(0, 0.5);

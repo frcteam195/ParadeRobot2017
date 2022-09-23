@@ -2,7 +2,7 @@
 
 void Robot::RobotInit() {
     try {
-        frc::LiveWindow::GetInstance()->DisableAllTelemetry();
+        frc::LiveWindow::DisableAllTelemetry();
 
         mSubsystemManager = &SubsystemManager::getInstance({
             &Input::getInstance(),

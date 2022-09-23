@@ -9,7 +9,7 @@ Looper::Looper()
     }
 
     if (running_) {
-        double now = frc::Timer::GetFPGATimestamp();
+        double now = frc::Timer::GetFPGATimestamp().value();
         try {
             for (Loop* loop : loops_) {
                 loop->onLoop(now);
@@ -37,7 +37,7 @@ void Looper::start() {
         {   //Aquire lock for this scope only
             std::scoped_lock<std::mutex> lock(mtx);
             if (isFirstStart) {
-                timestamp_ = frc::Timer::GetFPGATimestamp();
+                timestamp_ = frc::Timer::GetFPGATimestamp().value();
                 try {
                     for (Loop* loop : loops_) {
                         loop->onFirstStart(timestamp_);
@@ -47,7 +47,7 @@ void Looper::start() {
                     //ConsoleReporter.report(ex);
                 }
             }
-            timestamp_ = frc::Timer::GetFPGATimestamp();
+            timestamp_ = frc::Timer::GetFPGATimestamp().value();
             try {
                 for (Loop* loop : loops_) {
                     loop->onStart(timestamp_);
@@ -70,7 +70,7 @@ void Looper::stop() {
         notifier_.Stop();
         std::scoped_lock<std::mutex> lock(mtx);
         running_ = false;
-        timestamp_ = frc::Timer::GetFPGATimestamp();
+        timestamp_ = frc::Timer::GetFPGATimestamp().value();
         try {
             for (Loop* loop : loops_) {
                 loop->onStop(timestamp_);
