@@ -31,6 +31,8 @@ Turret::Turret() {
 
     hood_motor.ConfigMotionSCurveStrength(3);
     hood_motor.SetNeutralMode( NeutralMode::Brake );
+    hood_motor.ConfigReverseSoftLimitThreshold(0, 0);
+    hood_motor.ConfigReverseSoftLimitEnable(true, 0);
 
 
     // base --------------------
