@@ -124,7 +124,7 @@ void Turret::onLoop(double timestamp) {
 
     double vel_diff = shoot_vel_target - shoot_ratio.convertNativeUnitsToRPM( shoot_motor.GetSelectedSensorVelocity() );
     double vel_add = fmin(abs(vel_diff),(max_shoot_accel * dt)) * copysign(1.0, vel_diff);
-    if( vel_diff > shoot_deadband ){
+    if( abs(vel_diff) > shoot_deadband ){
         shoot_vel = shoot_vel + vel_add;
     }else{
         shoot_vel = shoot_vel_target;
